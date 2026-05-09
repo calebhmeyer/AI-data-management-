@@ -1,18 +1,31 @@
 {
   "_meta": {
-    "schema_version": "1.0",
+    "schema_version": "1.1",
     "added": "2026-05-09",
     "added_by": "claude-sonnet-4-6",
-    "source": "verbal description from operator"
+    "source": "verbal description from operator",
+    "last_updated": "2026-05-09"
   },
   "show": {
     "name": "CEO Summit",
     "client": "IQT",
     "type": "corporate_conference",
-    "date": null,
-    "date_notes": "unknown — operator did not specify",
-    "location": null,
-    "location_notes": "unknown — operator did not specify"
+    "dates": {
+      "start": "2026-05-04",
+      "end": "2026-05-07",
+      "schedule": [
+        { "date": "2026-05-04", "call": "09:00", "wrap": "16:00" },
+        { "date": "2026-05-05", "call": "09:00", "wrap": "15:00" },
+        { "date": "2026-05-06", "call": "07:00", "wrap": "16:00" },
+        { "date": "2026-05-07", "call": "07:00", "wrap": "17:00" }
+      ]
+    },
+    "location": {
+      "venue": "Arizona Grand Resort",
+      "city": "Phoenix",
+      "state": "AZ"
+    },
+    "summary": "Very loose show — client gave almost no guidance and oddly no approval process. Operator had full creative latitude over the breakout room."
   },
   "companies": [
     {
@@ -50,14 +63,19 @@
         "fixtures_as_built": [
           {
             "quantity": 24,
-            "name": "Machorra",
-            "note": "name uncertain — may be mis-transcribed from voice; original plan was different fixture"
+            "manufacturer": "Martin",
+            "model": "MAC Aura",
+            "operating_mode": null,
+            "note": null
           }
         ],
         "fixtures_original_plan": [
           {
             "quantity": 32,
-            "name": "Elation Six Power"
+            "manufacturer": "Elation",
+            "model": "Six Power",
+            "operating_mode": null,
+            "note": null
           }
         ],
         "plan_vs_actual_note": "Show came in with fewer fixtures of a different type than planned"

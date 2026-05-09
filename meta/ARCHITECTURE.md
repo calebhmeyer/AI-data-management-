@@ -36,7 +36,33 @@ A show can have multiple areas (general session, breakout rooms, pre-function, e
 
 ---
 
-## Open Questions (as of v1.0)
+## v1.1 — 2026-05-09
+
+**Decision: `date` string → structured `dates` object with per-day schedule**
+
+CEO Summit ran May 4–7, 2026 with different call/wrap times each day. A single date string can't represent this. Replaced with:
+- `start` / `end` for range queries ("what shows did I work in May?")
+- `schedule` array for per-day call and wrap times
+
+Single-day shows just have one schedule entry. This is backwards-incompatible but acceptable — only one show exists so far.
+
+**Decision: `location` string → structured object with `venue`, `city`, `state`**
+
+A free string can't be filtered or grouped. Splitting into venue + city + state enables "all shows in Phoenix" or "all shows at this venue" queries. International shows use `country` instead of `state`.
+
+**Decision: Fixture entries split from flat `name` → `manufacturer` + `model` + `operating_mode`**
+
+The operator noted that operating mode matters (different DMX footprints) and that fixture arrays should track this. Splitting manufacturer from model also enables queries like "all shows where I used Martin fixtures" without string parsing.
+
+The `operating_mode` field will be null in most early entries and populated over time as the operator remembers or records it.
+
+**Decision: `summary` added as a freeform show-level field**
+
+Some shows have character that doesn't fit structured fields — e.g., "client gave no guidance and oddly no approval process." This context is career-relevant. A single summary string captures it without forcing structure onto something inherently unstructured.
+
+---
+
+## Open Questions (as of v1.1)
 
 - Should companies be a global registry (separate file, referenced by ID) or inline per show?
   - Current: inline per show. Simple to start.
@@ -45,8 +71,7 @@ A show can have multiple areas (general session, breakout rooms, pre-function, e
 - Should key crew be a global registry?
   - Same tradeoff. Start inline, migrate if it gets unwieldy.
 
-- How should multi-day shows be represented?
-  - Not enough data yet. First show had no date at all.
-
 - Is `my_area` always singular or can the operator work multiple areas on one show?
   - Possibly rename to `my_areas` (array) in a future version if that comes up.
+
+- Travel: CEO Summit was in Phoenix. Was travel involved? No field for this yet. Worth adding if shows start happening in multiple cities regularly.

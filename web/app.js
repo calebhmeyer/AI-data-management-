@@ -79,8 +79,8 @@ async function loadShows() {
     }));
 
     allShows.sort((a, b) => {
-      const da = a.show?.date || '0000';
-      const db = b.show?.date || '0000';
+      const da = a.show?.dates?.start || '0000';
+      const db = b.show?.dates?.start || '0000';
       return db.localeCompare(da);
     });
 
@@ -164,7 +164,7 @@ function render() {
       <div class="card-top">
         <span class="card-title">${esc(show.show?.name || 'Untitled')}</span>
         <span class="card-client">${esc(show.show?.client || '')}</span>
-        <span class="card-date">${esc(show.show?.date || show.show?.date_notes || '')}</span>
+        <span class="card-date">${esc(formatDateRange(show.show?.dates))}</span>
         <span class="card-type">${esc(humanize(show.show?.type || ''))}</span>
       </div>
       <div class="card-role">${esc(show.my_role?.title || '')}${show.my_role?.area ? ` — ${esc(show.my_role.area)}` : ''}</div>
@@ -214,11 +214,25 @@ function buildDetail(s) {
       <h2>${esc(show.name || 'Untitled')}</h2>
       <div class="client-line">${esc(show.client || '')}</div>
       <div class="meta-line">
-        ${show.date ? esc(show.date) : '<span class="unknown">Date unknown</span>'}
-        ${show.location ? ' · ' + esc(show.location) : ''}
+        ${show.dates ? esc(formatDateRange(show.dates)) : '<span class="unknown">Date unknown</span>'}
+        ${show.location ? ' · ' + esc(formatLocation(show.location)) : ''}
         ${show.type ? ' · ' + esc(humanize(show.type)) : ''}
       </div>
+      ${show.summary ? `<div class="show-summary">${esc(show.summary)}</div>` : ''}
     </div>
+
+    ${show.dates?.schedule?.length ? `
+    <div class="detail-section">
+      <h3>Schedule</h3>
+      <div class="kv-list">
+        ${show.dates.schedule.map(d => `
+          <div class="kv">
+            <span class="kv-key">${esc(formatDay(d.date))}</span>
+            <span class="kv-val">${esc(d.call || '?')} → ${esc(d.wrap || '?')}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>` : ''}
 
     <div class="detail-section">
       <h3>My Role</h3>
@@ -261,13 +275,18 @@ function buildDetail(s) {
       ${(lighting.fixtures_as_built || []).length ? `
         <div style="margin-top:10px; margin-bottom:4px; font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.5px;">Fixtures (as built)</div>
         ${lighting.fixtures_as_built.map(f => `
-          <div class="fixture-row"><span class="qty">${f.quantity}×</span>${esc(f.name)}</div>
+          <div class="fixture-row">
+            <span class="qty">${f.quantity}×</span>${esc(f.manufacturer ? f.manufacturer + ' ' + f.model : f.name || '?')}
+            ${f.operating_mode ? ` <span style="color:var(--text-muted);font-size:11px;">[${esc(f.operating_mode)}]</span>` : ''}
+          </div>
         `).join('')}
       ` : ''}
       ${(lighting.fixtures_original_plan || []).length ? `
         <div style="margin-top:8px; margin-bottom:4px; font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.5px;">Original Plan</div>
         ${lighting.fixtures_original_plan.map(f => `
-          <div class="fixture-row fixture-strike"><span class="qty">${f.quantity}×</span>${esc(f.name)}</div>
+          <div class="fixture-row fixture-strike">
+            <span class="qty">${f.quantity}×</span>${esc(f.manufacturer ? f.manufacturer + ' ' + f.model : f.name || '?')}
+          </div>
         `).join('')}
         ${lighting.plan_vs_actual_note ? `<div style="font-size:12px; color:var(--text-muted); margin-top:4px;">${esc(lighting.plan_vs_actual_note)}</div>` : ''}
       ` : ''}
@@ -305,6 +324,34 @@ function buildDetail(s) {
 }
 
 // ── Utilities ──────────────────────────────────────────────────────────────
+function formatDateRange(dates) {
+  if (!dates) return '';
+  if (!dates.start) return '';
+  if (!dates.end || dates.start === dates.end) return dates.start;
+  // Same month: "May 4–7, 2026"
+  const s = new Date(dates.start + 'T12:00:00');
+  const e = new Date(dates.end   + 'T12:00:00');
+  const month = s.toLocaleDateString('en-US', { month: 'short' });
+  const year  = s.getFullYear();
+  if (s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear()) {
+    return `${month} ${s.getDate()}–${e.getDate()}, ${year}`;
+  }
+  return `${dates.start} – ${dates.end}`;
+}
+
+function formatLocation(loc) {
+  if (!loc) return '';
+  if (typeof loc === 'string') return loc;
+  const parts = [loc.venue, loc.city, loc.state || loc.country].filter(Boolean);
+  return parts.join(', ');
+}
+
+function formatDay(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+}
+
 function esc(str) {
   if (str == null) return '';
   return String(str)

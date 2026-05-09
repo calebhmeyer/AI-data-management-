@@ -1,7 +1,9 @@
-# Show Log Schema — Version 1.0
+# Show Log Schema — Version 1.1
 
 Last updated: 2026-05-09
 Updated by: claude-sonnet-4-6
+
+Changes from v1.0: `date`/`date_notes`/`location`/`location_notes` replaced with structured `dates` and `location` objects; `summary` field added; fixture entries split into `manufacturer`/`model`/`operating_mode` instead of flat `name`.
 
 ---
 
@@ -13,34 +15,60 @@ Each show is a single JSON file in `/shows/`. Filename convention: `show-name-cl
 
 ## `_meta` block
 
-Bookkeeping for the entry itself — not show data.
-
 | Field | Type | Description |
 |-------|------|-------------|
 | `schema_version` | string | Which version of this schema the entry was written against |
 | `added` | date string | When this entry was created |
 | `added_by` | string | Who or what created it (AI model ID, or "operator") |
 | `source` | string | How the data was captured |
+| `last_updated` | date string | When the entry was last modified |
 
 ---
 
 ## `show` block
 
-Core identity of the production.
-
 | Field | Type | Notes |
 |-------|------|-------|
 | `name` | string | Show title as commonly referred to |
-| `client` | string | The end client / brand / organization paying for the event |
+| `client` | string | The end client / brand / organization |
 | `type` | string | See types below |
-| `date` | date string or null | ISO 8601 preferred. Null if unknown |
-| `date_notes` | string | Context if date is approximate or unknown |
-| `location` | string or null | City, venue, or both |
-| `location_notes` | string | Additional location context |
+| `dates` | object | See dates structure below |
+| `location` | object | See location structure below |
+| `summary` | string or null | Freeform description of the overall feel, context, or unusual circumstances of the show |
 
-**Show types** (expected to grow):
-- `corporate_conference` — multi-session corporate event
-- `corporate_general_session` — single general session
+### `dates` structure
+
+```json
+{
+  "start": "YYYY-MM-DD",
+  "end": "YYYY-MM-DD",
+  "schedule": [
+    { "date": "YYYY-MM-DD", "call": "HH:MM", "wrap": "HH:MM" }
+  ]
+}
+```
+
+- `schedule` is an array, one entry per day worked
+- `call` and `wrap` are local time, 24-hour format
+- Single-day shows have one schedule entry; `start` and `end` will be the same date
+- Omit `schedule` entirely if per-day times are unknown
+
+### `location` structure
+
+```json
+{
+  "venue": "Venue Name",
+  "city": "City",
+  "state": "ST"
+}
+```
+
+- `state` uses 2-letter US abbreviation; use `country` instead for international
+- Any field can be null if unknown
+
+**Show types:**
+- `corporate_conference` — multi-session corporate event with breakout structure
+- `corporate_general_session` — single large-format session
 - `live_concert` — music performance
 - `theater` — theatrical production
 - `broadcast` — TV / streaming / film
@@ -51,13 +79,11 @@ Core identity of the production.
 
 ## `companies` array
 
-All companies involved in the show. Each entry:
-
 | Field | Type | Notes |
 |-------|------|-------|
 | `name` | string | Company name |
 | `role` | string | See roles below |
-| `personal_connection` | string or null | Any personal relationship (e.g., "brother's company") |
+| `personal_connection` | string or null | Any personal relationship |
 
 **Company roles:**
 - `lead_production` — the production company running the show
@@ -70,8 +96,6 @@ All companies involved in the show. Each entry:
 
 ## `my_role` block
 
-The operator's specific position on this show.
-
 | Field | Type | Notes |
 |-------|------|-------|
 | `title` | string | Job title as called on this show |
@@ -81,8 +105,6 @@ The operator's specific position on this show.
 ---
 
 ## `key_crew` array
-
-Notable crew members the operator interacted with or wants to remember.
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -95,11 +117,7 @@ Notable crew members the operator interacted with or wants to remember.
 
 ## `my_area` block
 
-Detailed breakdown of the operator's specific area/room. This block is expected to be the most variable part of the schema.
-
-### `equipment` block
-
-#### `lighting`
+### `equipment.lighting`
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -108,17 +126,30 @@ Detailed breakdown of the operator's specific area/room. This block is expected 
 | `fixtures_original_plan` | array or null | What was originally spec'd, if different |
 | `plan_vs_actual_note` | string or null | Explanation of any discrepancy |
 
-Each fixture entry: `{ "quantity": int, "name": string, "note": string or null }`
+**Fixture entry structure:**
 
-#### `audio`
+```json
+{
+  "quantity": 24,
+  "manufacturer": "Martin",
+  "model": "MAC Aura",
+  "operating_mode": null,
+  "note": null
+}
+```
+
+- `operating_mode` matters: many fixtures run different DMX footprints (e.g., "basic", "extended", "16-bit"). Null if not specified or not relevant.
+- `manufacturer` and `model` are separate to enable queries like "all shows with Martin fixtures"
+
+### `equipment.audio`
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `speakers` | int or null | Speaker count |
-| `mixer` | boolean | Whether a mixer was in their area |
+| `speakers` | int or null | Speaker count in the area |
+| `mixer` | boolean | Whether a mixer was present |
 | `mixer_type` | string or null | Model/type if known |
 
-#### `video`
+### `equipment.video`
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -129,7 +160,7 @@ Each fixture entry: `{ "quantity": int, "name": string, "note": string or null }
 
 ## `incidents` array
 
-Mistakes, near-misses, unexpected problems, and lessons learned. **This is career-critical data.**
+**This is career-critical data — not an afterthought.**
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -147,14 +178,20 @@ Free text. Anything that doesn't fit elsewhere.
 
 ---
 
-## Known Gaps in v1.0
+## Known Gaps in v1.1
 
-- No field for show duration / number of days
 - No field for union vs. non-union work
 - No field for budget tier
-- No field for travel required
+- No field for travel required (this show was in Phoenix — was travel involved?)
 - No field for whether show was repeat business / return client
-- `Machorra` fixture name on CEO Summit is uncertain — may need correction
-- Dates and location missing from first entry
+- `operating_mode` is null on all fixtures so far — will populate as data comes in
+- `summary` field is new and untested across multiple shows; may split into multiple fields later
 
-These gaps are tracked here intentionally. As shows are added, the right fields will become obvious.
+---
+
+## Changelog
+
+| Version | Date | Change |
+|---------|------|--------|
+| 1.0 | 2026-05-09 | Initial schema |
+| 1.1 | 2026-05-09 | Structured `dates` (with per-day schedule), structured `location`, `summary` field, fixtures split to `manufacturer`/`model`/`operating_mode` |
