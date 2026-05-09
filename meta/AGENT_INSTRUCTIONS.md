@@ -6,7 +6,8 @@ You are working on a personal show log for a live event lighting operator. This 
 
 1. **Read `meta/SCHEMA.md`** — understand the current field definitions and why each one exists
 2. **Read `meta/ARCHITECTURE.md`** — understand past decisions and the reasoning behind them
-3. **Read any existing shows** in `shows/` to understand the actual data shape
+3. **Read `meta/profile.json`** — operator's home base and any standing preferences
+4. **Read any existing shows** in `shows/` to understand the actual data shape
 
 ## When Adding New Data
 

@@ -1,0 +1,5 @@
+{
+  "home_city": "Phoenix",
+  "home_state": "AZ",
+  "note": "When inferring travel_required on a show: if show location city matches home_city, travel_required is false. Otherwise assume true unless operator specifies otherwise."
+}

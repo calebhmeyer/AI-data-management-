@@ -35,6 +35,7 @@ Each show is a single JSON file in `/shows/`. Filename convention: `show-name-cl
 | `dates` | object | See dates structure below |
 | `location` | object | See location structure below |
 | `summary` | string or null | Freeform description of the overall feel, context, or unusual circumstances of the show |
+| `travel_required` | boolean or null | Whether the show required travel from home base (see `meta/profile.json`). Null if unknown. |
 
 ### `dates` structure
 
@@ -182,7 +183,7 @@ Free text. Anything that doesn't fit elsewhere.
 
 - No field for union vs. non-union work
 - No field for budget tier
-- No field for travel required (this show was in Phoenix — was travel involved?)
+- `travel_required` field added; operator home base is Phoenix AZ (see `meta/profile.json`)
 - No field for whether show was repeat business / return client
 - `operating_mode` is null on all fixtures so far — will populate as data comes in
 - `summary` field is new and untested across multiple shows; may split into multiple fields later
