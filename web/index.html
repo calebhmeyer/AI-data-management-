@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Show Log</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Auth screen -->
+  <div id="auth-screen">
+    <div class="auth-box">
+      <h1>Show Log</h1>
+      <p>Enter your GitHub Personal Access Token to continue.<br>
+         Needs <code>repo</code> scope on <code>calebhmeyer/AI-data-management-</code>.</p>
+      <input type="password" id="token-input" placeholder="ghp_..." autocomplete="off" />
+      <button id="auth-btn">Connect</button>
+      <p class="auth-error" id="auth-error"></p>
+    </div>
+  </div>
+
+  <!-- Main app -->
+  <div id="app" class="hidden">
+    <nav>
+      <span class="nav-title">Show Log</span>
+      <span class="nav-stats" id="nav-stats"></span>
+      <input type="search" id="search-input" placeholder="Search shows, crew, companies…" />
+      <button id="logout-btn" class="ghost">Sign out</button>
+    </nav>
+
+    <div class="layout">
+      <!-- Sidebar filters -->
+      <aside id="sidebar">
+        <div class="filter-group">
+          <label>Type</label>
+          <div id="type-filters" class="filter-chips"></div>
+        </div>
+        <div class="filter-group">
+          <label>Role</label>
+          <div id="role-filters" class="filter-chips"></div>
+        </div>
+        <div class="filter-group">
+          <label>Companies</label>
+          <div id="company-filters" class="filter-chips"></div>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <main>
+        <div id="loading" class="center-msg">Loading shows…</div>
+        <div id="empty" class="center-msg hidden">No shows match your filters.</div>
+        <div id="show-list"></div>
+      </main>
+
+      <!-- Detail panel -->
+      <div id="detail-panel" class="hidden">
+        <button id="close-detail" class="ghost close-btn">✕</button>
+        <div id="detail-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+{
+  "_meta": {
+    "schema_version": "1.0",
+    "added": "2026-05-09",
+    "added_by": "claude-sonnet-4-6",
+    "source": "verbal description from operator"
+  },
+  "show": {
+    "name": "CEO Summit",
+    "client": "IQT",
+    "type": "corporate_conference",
+    "date": null,
+    "date_notes": "unknown — operator did not specify",
+    "location": null,
+    "location_notes": "unknown — operator did not specify"
+  },
+  "companies": [
+    {
+      "name": "LMG",
+      "role": "lead_production"
+    },
+    {
+      "name": "IMT",
+      "role": "labor"
+    },
+    {
+      "name": "TNPAV",
+      "role": "labor",
+      "personal_connection": "operator's brother's company"
+    }
+  ],
+  "my_role": {
+    "title": "Breakout Room Operator",
+    "area": "Breakout Room",
+    "in_hierarchy": "operator level — below show LD"
+  },
+  "key_crew": [
+    {
+      "name": "Dave Renshaw",
+      "role": "Lighting Designer",
+      "area": "General Session",
+      "relationship": "colleague on show"
+    }
+  ],
+  "my_area": {
+    "name": "Breakout Room",
+    "equipment": {
+      "lighting": {
+        "console": "ETC Color Source AV",
+        "fixtures_as_built": [
+          {
+            "quantity": 24,
+            "name": "Machorra",
+            "note": "name uncertain — may be mis-transcribed from voice; original plan was different fixture"
+          }
+        ],
+        "fixtures_original_plan": [
+          {
+            "quantity": 32,
+            "name": "Elation Six Power"
+          }
+        ],
+        "plan_vs_actual_note": "Show came in with fewer fixtures of a different type than planned"
+      },
+      "audio": {
+        "speakers": 4,
+        "mixer": true,
+        "mixer_type": null
+      },
+      "video": {
+        "screens": 2,
+        "screen_type": "TV"
+      }
+    }
+  },
+  "incidents": [
+    {
+      "type": "operator_error",
+      "severity": "minor",
+      "client_impact": "none — client did not notice",
+      "description": "Connected laptop to mobile hotspot to play house music, then walked away to get breakfast. Hotspot lost connection; music stopped. Room was silent until operator returned and diagnosed the issue.",
+      "lesson": "Never leave a room with music running from a hotspot-dependent laptop unattended. Hotspot reliability degrades the moment it leaves your attention. Use a local audio file, a dedicated player, or stay in the room."
+    }
+  ],
+  "notes": ""
+}
