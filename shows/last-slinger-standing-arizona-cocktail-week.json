@@ -1,0 +1,83 @@
+{
+  "_meta": {
+    "schema_version": "1.2",
+    "added": "2026-05-09",
+    "added_by": "claude-sonnet-4-6",
+    "source": "verbal description from operator",
+    "last_updated": "2026-05-09"
+  },
+  "show": {
+    "name": "Last Slinger Standing",
+    "client": "Arizona Cocktail Week",
+    "type": "corporate_special_event",
+    "dates": {
+      "start": "2026-03-02",
+      "end": "2026-03-02",
+      "schedule": [
+        { "date": "2026-03-02", "call": "11:00", "wrap": "23:00" }
+      ]
+    },
+    "location": {
+      "venue": "Republic National Distributing Company",
+      "venue_notes": "Spirits distributor/bottling company with an in-house ballroom — unusual venue",
+      "city": "Phoenix",
+      "state": "AZ",
+      "city_inferred": true
+    },
+    "summary": null,
+    "travel_required": false
+  },
+  "companies": [
+    {
+      "name": "White Tie Productions",
+      "role": "lead_production",
+      "notes": "Handled full production including labor — no separate labor company on this show"
+    }
+  ],
+  "my_role": {
+    "title": "Lighting Designer",
+    "area": "Full show",
+    "in_hierarchy": "Top of lighting chain — sole LD, no sub-operators noted"
+  },
+  "key_crew": [],
+  "my_area": {
+    "name": "Full show",
+    "equipment": {
+      "lighting": {
+        "console": "High End Systems Hog 4",
+        "fixtures_as_built": [
+          {
+            "quantity": 4,
+            "manufacturer": "Ayrton",
+            "model": "Diablo",
+            "operating_mode": null,
+            "mounting": "towers_ground_supported",
+            "note": null
+          },
+          {
+            "quantity": 18,
+            "manufacturer": "Chauvet",
+            "model": "Freedom Par",
+            "operating_mode": null,
+            "mounting": null,
+            "note": null
+          },
+          {
+            "quantity": 24,
+            "manufacturer": "Astera",
+            "model": "Quick Spot",
+            "operating_mode": null,
+            "mounting": null,
+            "note": null
+          }
+        ],
+        "fixtures_original_plan": null,
+        "plan_vs_actual_note": null
+      },
+      "audio": null,
+      "video": null
+    }
+  },
+  "incidents": [],
+  "notes": ""
+}

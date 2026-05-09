@@ -62,7 +62,23 @@ Some shows have character that doesn't fit structured fields — e.g., "client g
 
 ---
 
-## Open Questions (as of v1.1)
+## v1.2 — 2026-05-09
+
+**Decision: `mounting` field added to fixture entries**
+
+"Last Slinger Standing" had Ayrton Diablos on ground-supported towers — meaningful production data that the current schema had no place for. Mounting type tells you about rig scale, setup complexity, and venue constraints. Added as a nullable string with common values documented in SCHEMA.md.
+
+**Decision: `corporate_special_event` show type added**
+
+"Last Slinger Standing" was a cocktail competition run by Arizona Cocktail Week in a corporate context. It isn't a `corporate_conference` (no sessions/breakouts/general session structure) and it isn't a generic `special_event` (it was explicitly corporate in nature). A distinct type keeps queries clean and avoids a catch-all bucket filling up with unrelated shows.
+
+**Decision: `city_inferred` flag on location**
+
+When an agent infers a city rather than receiving it explicitly from the operator, that should be marked. Inferred data has lower confidence and should be corrected if the operator ever clarifies. `city_inferred: true` is the signal to a future agent that this field needs confirmation.
+
+---
+
+## Open Questions (as of v1.2)
 
 - Should companies be a global registry (separate file, referenced by ID) or inline per show?
   - Current: inline per show. Simple to start.
@@ -71,7 +87,7 @@ Some shows have character that doesn't fit structured fields — e.g., "client g
 - Should key crew be a global registry?
   - Same tradeoff. Start inline, migrate if it gets unwieldy.
 
-- Is `my_area` always singular or can the operator work multiple areas on one show?
+- Is `my_area` always singular or can the operator work multiple areas on one show? (CEO Summit had one breakout room; future shows may differ)
   - Possibly rename to `my_areas` (array) in a future version if that comes up.
 
 - Travel: CEO Summit was in Phoenix. Was travel involved? No field for this yet. Worth adding if shows start happening in multiple cities regularly.

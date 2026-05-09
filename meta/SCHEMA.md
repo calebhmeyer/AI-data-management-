@@ -59,22 +59,26 @@ Each show is a single JSON file in `/shows/`. Filename convention: `show-name-cl
 ```json
 {
   "venue": "Venue Name",
+  "venue_notes": "Optional context about the space",
   "city": "City",
-  "state": "ST"
+  "state": "ST",
+  "city_inferred": false
 }
 ```
 
 - `state` uses 2-letter US abbreviation; use `country` instead for international
 - Any field can be null if unknown
+- `city_inferred: true` means the city was not explicitly confirmed by the operator — an agent inferred it from context (e.g., home base match, client geography). Flag for future confirmation.
 
 **Show types:**
 - `corporate_conference` — multi-session corporate event with breakout structure
 - `corporate_general_session` — single large-format session
+- `corporate_special_event` — corporate-context event that isn't a conference: competitions, parties, brand activations, etc.
 - `live_concert` — music performance
 - `theater` — theatrical production
 - `broadcast` — TV / streaming / film
 - `trade_show` — exhibit/expo environment
-- `special_event` — awards, galas, etc.
+- `special_event` — non-corporate awards, galas, private events, etc.
 
 ---
 
@@ -131,16 +135,18 @@ Each show is a single JSON file in `/shows/`. Filename convention: `show-name-cl
 
 ```json
 {
-  "quantity": 24,
-  "manufacturer": "Martin",
-  "model": "MAC Aura",
+  "quantity": 4,
+  "manufacturer": "Ayrton",
+  "model": "Diablo",
   "operating_mode": null,
+  "mounting": "towers_ground_supported",
   "note": null
 }
 ```
 
-- `operating_mode` matters: many fixtures run different DMX footprints (e.g., "basic", "extended", "16-bit"). Null if not specified or not relevant.
-- `manufacturer` and `model` are separate to enable queries like "all shows with Martin fixtures"
+- `operating_mode`: the fixture's DMX mode (e.g., "basic", "extended", "16-bit"). Null if not specified or not relevant.
+- `manufacturer` and `model` are separate to enable queries like "all shows with Ayrton fixtures"
+- `mounting`: how/where the fixture was positioned. Common values: `towers_ground_supported`, `truss_flown`, `truss_ground_supported`, `floor`, `aerial`, `set_piece`. Null if not tracked.
 
 ### `equipment.audio`
 
@@ -196,3 +202,4 @@ Free text. Anything that doesn't fit elsewhere.
 |---------|------|--------|
 | 1.0 | 2026-05-09 | Initial schema |
 | 1.1 | 2026-05-09 | Structured `dates` (with per-day schedule), structured `location`, `summary` field, fixtures split to `manufacturer`/`model`/`operating_mode` |
+| 1.2 | 2026-05-09 | `mounting` field on fixtures; `corporate_special_event` show type; `venue_notes` and `city_inferred` on location |
