@@ -1,0 +1,158 @@
+PULL LIST - SHOW 2026-07-06
+============================================
+[ ] = check off as pulled
+*   = HOME RUN (long pulls - run these first)
+PKG = comes with fixture package, confirm in
+      case, do not pull from shop stock
+
+============================================
+SECTION 1 - UPSTAGE TRUSS
+14x Jolt Bar FX (127ch)
+8x Outcast Beam Wash (64ch, Tru1)
+============================================
+
+DATA
+[ ] 1x Cat5 100'          * sneak snake run
+[ ] 1x Sneak break-in       (console end)
+[ ] 1x Sneak break-out      (truss end, U1-U4)
+[ ] 2x DMX 50'            * jolt bar home runs
+[ ] 2x DMX 25'            * jolt bar home runs
+[ ] 10x DMX 5'              jolt jumpers 4+4+4+2
+[ ] 1x DMX 100'           * outcast home run, U5
+[ ] 8x DMX 25'              outcast jumpers (7+1 spare)
+
+POWER
+[ ] 1x Soco 100'          * (no break-in)
+[ ] 1x Edison breakout      (cir 1-4 jolts, 5-6 outcasts)
+[ ] 10x PowerCon 5'         jolt bar chains
+[ ] 1x Edison 50'         * outcast circuit 1
+[ ] 1x Edison 10'           outcast circuit 2
+[ ] 6x Tru1 25'             outcast chains 4+4
+PKG 4x Edison-to-PowerCon whip
+PKG 2x Edison-to-Tru1 whip
+
+SECTION TOTAL: 26 cables + 2 sneak ends
+               + 1 breakout (+6 pkg whips)
+
+============================================
+SECTION 2 - DOWNSTAGE TRUSS
+10x LED Leko (13ch)
+8x ADJ Jolt Panel (51ch)
+4x Maverick Force S (31ch)
+============================================
+
+POWER
+[ ] 6x Soco 100'          * 3 runs x 200'
+[ ] 2x Tru1 breakout        soco 1+2 -> lekos, 1/circuit
+[ ] 1x Edison breakout      soco 3 -> Force S + Jolts
+[ ] 4x Tru1 25'             lekos
+[ ] 4x Tru1 10'             lekos (2 more plug
+                            straight into fanout)
+[ ] 2x Edison 25'         * Force S home runs, 2/cir
+[ ] 2x Tru1 25'             Force S jumpers
+[ ] 2x Edison 10'         * Jolt Panel home runs, 4/cir
+[ ] 6x PowerCon 25'         Jolt Panel chains 4+4
+PKG 2x Edison-to-Tru1 whip
+PKG 2x Edison-to-PowerCon whip
+
+DATA  (U6 + U7, 662ch total)
+[ ] 4x DMX 100'           * 2 runs of 200'
+                            (two 100s joined per run)
+[ ] 12x DMX 10'             jumpers
+[ ] 4x DMX 25'              jumpers
+[ ] 6x DMX 5'               jumpers
+
+SECTION TOTAL: 52 cables + 3 breakouts
+               (+4 pkg whips)
+
+============================================
+SECTION 3 - TOWERS (FOH)
+2 towers x 2 ADJ Jolt Panel FX (51ch) - U8
+============================================
+
+POWER
+[ ] 3x Edison 100'        *
+[ ] 1x Edison 50'         *
+[ ] 2x Edison 25'
+[ ] 2x PowerCon 15'         1 per tower, links pair
+
+DATA
+[ ] 1x DMX 100'           * } JOINED =
+[ ] 1x DMX 50'            * } 150' home run
+[ ] 1x DMX 100'             jump, tower 1 -> tower 2
+[ ] 1x DMX 50'              SPARE (rides in tower bag)
+[ ] 2x DMX 5'               intra-tower jumpers
+
+SECTION TOTAL: 12 cables
+
+============================================
+SECTION 4 - UPLIGHTS
+12x ADJ 32 Hex Panel IP - 208V - U9
+(channel mode TBC on site)
+208V over soco/Tru1 - NO EDISON THIS SECTION
+============================================
+
+POWER
+[ ] 1x Soco 100'          *
+[ ] 1x Tru1 breakout        6 circuits x 2 fixtures
+[ ] 4x Tru1 50'
+[ ] 4x Tru1 25'
+[ ] 4x Tru1 10'
+
+DATA  (2 chains of 6)
+[ ] 2x DMX 100'           * home runs
+[ ] 2x DMX 50'              jumpers
+[ ] 8x DMX 25'              jumpers
+
+SECTION TOTAL: 25 cables + 1 breakout
+
+============================================
+GRAND TOTAL PULLED
+============================================
+Cat5 100' ............ 1
+Sneak break-in ....... 1
+Sneak break-out ...... 1
+DMX 100' ............. 9
+DMX 50' .............. 6
+DMX 25' ............. 22
+DMX 10' ............. 12
+DMX 5' .............. 18
+Soco 100' ............ 8
+Tru1 breakout ........ 3
+Edison breakout ...... 2
+Tru1 50' ............. 4
+Tru1 25' ............ 16
+Tru1 10/15' .......... 8
+PowerCon 5' ......... 10
+PowerCon 25' ......... 6
+PowerCon 15' ......... 2
+Edison 100' .......... 3
+Edison 50' ........... 2
+Edison 25' ........... 4
+Edison 10' ........... 3
+
+============================================
+SPARES LEFT ON TRUCK (after full pull)
+============================================
+DMX:      1x 100', 2x 50', 2x 25',
+          0x 10' (!), 2x 5'  <- THIN
+Soco:     2x 100', 5x 50'
+Tru1:     4x 100', 11x 50', 9x 25', 8x 10/15'
+PowerCon: 6x 5', 0x 25' (!), 2x 15'
+Edison:   1x 100', 8x 50', 6x 25', 7x 10'
+Breakouts: 4x Tru1, 2x Edison
+Cat5:     2x 50', 1x 100' + 1 full sneak set
+
+============================================
+MORNING CHECKLIST
+============================================
+1. Confirm pkg whips in cases:
+   upstage 4x Ed->PwrCon + 2x Ed->Tru1,
+   downstage 2x Ed->Tru1 + 2x Ed->PwrCon
+2. Confirm ADJ 32 Hex channel mode
+   -> verify uplight universe fill
+3. U5 (outcasts) = 512/512 EXACTLY FULL,
+   nothing else patches there
+4. Zero spares in 10' DMX and 25' PowerCon:
+   a bad cable in those sizes means
+   substituting up a size
