@@ -78,6 +78,21 @@ When an agent infers a city rather than receiving it explicitly from the operato
 
 ---
 
+## 2026-07-05 — `production/` directory added
+
+**Decision: cable-count working documents live in `/production/`, separate from `/shows/`**
+
+A live cable-count session (2026-07-06 show) produced two artifact types that aren't show
+JSON: a cable ledger / pull list (working documents used on site) and an app requirements
+spec harvested from the counting process. These are production *tooling* documents, not
+show records, so they get their own directory rather than polluting `/shows/`.
+
+Schema note: cabling has no home in schema v1.2 (`equipment.lighting` stops at console +
+fixtures). When this show gets its JSON entry in `/shows/`, a v1.3 `cabling` block should
+be proposed (per-section cable pulls, home runs, breakouts, universes, circuits).
+
+---
+
 ## Open Questions (as of v1.2)
 
 - Should companies be a global registry (separate file, referenced by ID) or inline per show?
