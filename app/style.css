@@ -54,6 +54,8 @@ input[type="number"] { width: 62px; }
 input, select { min-width: 0; }
 button { cursor: pointer; }
 button:hover { border-color: var(--muted); }
+button:disabled { opacity: 0.35; cursor: default; }
+button:disabled:hover { border-color: var(--line); }
 button:focus-visible, input:focus-visible, select:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;

@@ -154,6 +154,43 @@
 
   // ---------- state ----------
   var state;
+
+  // ---------- undo/redo ----------
+  // Snapshots of state; UI-only fields (section open/closed) don't create steps,
+  // and restoring keeps the panels you currently have open.
+  var history = { stack: [], idx: -1, limit: 120, muted: false };
+  function uiKey(s) {
+    return JSON.stringify(s, function (k, v) { return k === 'open' ? undefined : v; });
+  }
+  function snapshot() {
+    if (history.muted) return;
+    var key = uiKey(state);
+    if (history.idx >= 0 && history.stack[history.idx].key === key) {
+      history.stack[history.idx].json = JSON.stringify(state); // data same; keep latest ui state
+      return;
+    }
+    history.stack = history.stack.slice(0, history.idx + 1);
+    history.stack.push({ json: JSON.stringify(state), key: key });
+    if (history.stack.length > history.limit) history.stack.shift();
+    history.idx = history.stack.length - 1;
+  }
+  function applyHistory() {
+    history.muted = true;
+    var openMap = {};
+    (state.sections || []).forEach(function (s) { openMap[s.id] = s.open; });
+    state = JSON.parse(history.stack[history.idx].json);
+    (state.sections || []).forEach(function (s) { if (s.id in openMap) s.open = openMap[s.id]; });
+    update();
+    history.muted = false;
+  }
+  function undo() { if (history.idx > 0) { history.idx--; applyHistory(); } }
+  function redo() { if (history.idx < history.stack.length - 1) { history.idx++; applyHistory(); } }
+  function refreshUndoButtons() {
+    var u = $('#btn-undo'), r = $('#btn-redo');
+    if (u) u.disabled = history.idx <= 0;
+    if (r) r.disabled = history.idx >= history.stack.length - 1;
+  }
+
   function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { } }
   function load() {
     try {
@@ -577,7 +614,17 @@
   // ---------- top actions ----------
   function wireActions() {
     $('#showname').addEventListener('change', function () {
-      state.showName = $('#showname').value; save();
+      state.showName = $('#showname').value; update();
+    });
+    $('#btn-undo').addEventListener('click', undo);
+    $('#btn-redo').addEventListener('click', redo);
+    document.addEventListener('keydown', function (e) {
+      var tag = (e.target && e.target.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'select') return; // native field undo wins
+      if (!(e.ctrlKey || e.metaKey)) return;
+      var k = e.key.toLowerCase();
+      if (k === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+      else if (k === 'y' || (k === 'z' && e.shiftKey)) { e.preventDefault(); redo(); }
     });
     $('#btn-export').addEventListener('click', function () {
       var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
@@ -641,6 +688,8 @@
     renderPathLayerSelect();
     if (engine) syncScene();
     save();
+    snapshot();
+    refreshUndoButtons();
   }
 
   // ---------- boot ----------
