@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var C = window.CableCore;
-  var STORAGE_KEY = 'pullsheet_v01';
+  var STORAGE_KEY = 'pullsheet_v02';
 
   // ---------- catalog: the operator's real shop stock types ----------
   function demoCatalog() {
@@ -32,6 +32,18 @@
       C.makeType('ed25', "Edison 25'", 'power', 25),
       C.makeType('ed10', "Edison 10'", 'power', 10)
     ];
+  }
+
+  // ---------- blank project: how every real show starts ----------
+  function blankState() {
+    return {
+      showName: 'Untitled Show',
+      breakerAmps: 20,
+      catalog: demoCatalog(), // standard shop cable types, quantities all zero
+      inventory: {},
+      sections: [],
+      geometry: { room: null, paths: [] }
+    };
   }
 
   // ---------- demo show: the real 2026-07-06 count ----------
@@ -148,7 +160,7 @@
       var raw = localStorage.getItem(STORAGE_KEY);
       if (raw) { state = JSON.parse(raw); return; }
     } catch (e) { }
-    state = demoState();
+    state = blankState();
   }
 
   var $ = function (sel) { return document.querySelector(sel); };
@@ -570,10 +582,26 @@
       };
       r.readAsText(f);
     });
-    $('#btn-reset').addEventListener('click', function () {
-      if (confirm('Reset to the demo show (2026-07-06)? Current data will be replaced.')) {
+    $('#btn-new').addEventListener('click', function () {
+      if (confirm('Start a new blank project? Current data will be replaced (export first if you need it).')) {
+        state = blankState(); update(); syncScene();
+      }
+    });
+    $('#btn-demo').addEventListener('click', function () {
+      if (confirm('Load the demo show (2026-07-06)? Current data will be replaced.')) {
         state = demoState(); update(); syncScene();
       }
+    });
+    $('#nt-add').addEventListener('click', function () {
+      var label = $('#nt-label').value.trim();
+      if (!label) return;
+      var len = parseFloat($('#nt-len').value || '0') || null;
+      state.catalog.push(C.makeType(uid(), label, $('#nt-kind').value, len));
+      $('#nt-label').value = ''; $('#nt-len').value = '';
+      update();
+    });
+    $('#nt-label').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') $('#nt-add').click();
     });
     $('#btn-add-section').addEventListener('click', function () {
       var name = $('#new-section-name').value.trim();

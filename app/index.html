@@ -13,10 +13,11 @@
       <input id="showname" type="text" aria-label="Show name">
       <div id="totals"></div>
       <div class="actions">
+        <button id="btn-new">new</button>
         <button id="btn-export">export</button>
         <button id="btn-import">import</button>
         <input id="import-file" type="file" accept=".json" hidden>
-        <button id="btn-reset" class="ghost">reset demo</button>
+        <button id="btn-demo" class="ghost">load demo</button>
       </div>
     </header>
 
@@ -28,6 +29,16 @@
         </thead>
         <tbody id="pool-body"></tbody>
       </table>
+      <div class="inv-add">
+        <input id="nt-label" type="text" placeholder="new cable type…" aria-label="New cable type name">
+        <select id="nt-kind" aria-label="New cable type kind">
+          <option value="data">data</option>
+          <option value="power">power</option>
+          <option value="infra">infra</option>
+        </select>
+        <input id="nt-len" type="number" min="0" placeholder="ft" aria-label="New cable type length in feet">
+        <button id="nt-add" class="primary">+ type</button>
+      </div>
     </aside>
 
     <main id="mid">

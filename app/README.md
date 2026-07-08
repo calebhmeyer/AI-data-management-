@@ -4,8 +4,9 @@ Cable-count app for live event production. Phase 2 of the plan in
 `production/APP_REQUIREMENTS.md`; architecture per `production/DESIGN_NOTES.md`.
 
 Open `index.html` in any browser — no build step, no dependencies. State autosaves to
-localStorage; export/import as JSON. Ships preloaded with the real 2026-07-06 show as
-demo data (the Phase 1 ground truth).
+localStorage; export/import as JSON. Starts as a blank project (standard shop cable
+types, zero quantities); the real 2026-07-06 show — the Phase 1 ground truth — loads
+via the "load demo" button. "new" clears back to a blank project.
 
 ## Structure (the layer cake, as designed)
 

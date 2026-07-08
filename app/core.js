@@ -33,7 +33,8 @@
       var rem = start - u;
       var status = 'ok';
       if (rem < 0) status = 'short';
-      else if (rem === 0 && (u > 0 || start === 0)) status = 'zero';
+      else if (start === 0 && u === 0) status = 'ok'; // unset line in a fresh project
+      else if (rem === 0) status = 'zero';
       else if (rem <= Math.max(2, Math.ceil(start * 0.15))) status = 'low';
       return { typeId: t.id, label: t.label, kind: t.kind, start: start, used: u, remaining: rem, status: status };
     });
