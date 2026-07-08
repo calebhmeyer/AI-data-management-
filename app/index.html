@@ -44,6 +44,19 @@
     <main id="mid">
       <div id="viewport-wrap">
         <canvas id="viewport"></canvas>
+        <div id="gizmo" role="group" aria-label="Snap view">
+          <button data-view="top">top</button>
+          <div class="giz-row">
+            <button data-view="left">left</button>
+            <button data-view="front">front</button>
+            <button data-view="right">right</button>
+          </div>
+          <div class="giz-row">
+            <button data-view="bottom">bottom</button>
+            <button data-view="back">back</button>
+          </div>
+          <button id="view-3d" class="giz-3d">◇ 3D orbit</button>
+        </div>
         <div id="alert-banner" role="alert"></div>
         <div id="hud">
           <div id="hud-mode">NAVIGATE</div>
@@ -56,9 +69,6 @@
         <button id="mode-orbit">navigate</button>
         <button id="mode-room">draw room</button>
         <button id="mode-path">draw path</button>
-        <span class="sep"></span>
-        <button id="view-top">top</button>
-        <button id="view-3d">3d</button>
         <span class="sep"></span>
         <label for="elev">plane</label>
         <input id="elev" type="number" value="0" step="1" min="0" aria-label="Working elevation in feet">

@@ -108,7 +108,7 @@
           self.cam.target.z -= (right.z * dx - up.z * dy) / s;
         } else {
           self.cam.yaw += dx * 0.008;
-          self.cam.pitch = Math.max(0.05, Math.min(1.55, self.cam.pitch + dy * 0.008));
+          self.cam.pitch = Math.max(-1.55, Math.min(1.55, self.cam.pitch + dy * 0.008));
         }
         lx = x; ly = y; self.draw();
       }
@@ -179,10 +179,45 @@
     this.mode = m; this.pending = []; this.cursor.live = false; this.draw();
   };
   Engine.prototype.topView = function () {
-    this.ortho = true; this.cam.yaw = 0; this.cam.pitch = 1.5507; this.draw();
+    this.snapView('top');
   };
   Engine.prototype.perspView = function () {
-    this.ortho = false; this.cam.pitch = Math.min(this.cam.pitch, 1.1); this.draw();
+    this.ortho = false;
+    this.cam.pitch = Math.max(0.3, Math.min(this.cam.pitch, 1.1));
+    this.draw();
+  };
+  // snap to a face view (always orthographic — these are plan/elevation views)
+  var FACE_VIEWS = {
+    top: [0, 1.5507], bottom: [0, -1.5507],
+    front: [0, 0], back: [Math.PI, 0],
+    left: [Math.PI / 2, 0], right: [-Math.PI / 2, 0]
+  };
+  Engine.prototype.snapView = function (face) {
+    var t = FACE_VIEWS[face];
+    if (!t) return;
+    this.ortho = true;
+    var self = this;
+    var y0 = this.cam.yaw, p0 = this.cam.pitch;
+    // shortest spin: wrap yaw delta into [-pi, pi]
+    var dy = t[0] - y0;
+    dy = ((dy + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
+    var dp = t[1] - p0;
+    var reduce = global.matchMedia && global.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || (Math.abs(dy) < 0.001 && Math.abs(dp) < 0.001)) {
+      this.cam.yaw = t[0]; this.cam.pitch = t[1]; this.draw(); return;
+    }
+    var start = null;
+    function step(ts) {
+      if (start == null) start = ts;
+      var k = Math.min(1, (ts - start) / 180);
+      var e = k * (2 - k); // ease-out
+      self.cam.yaw = y0 + dy * e;
+      self.cam.pitch = p0 + dp * e;
+      self.draw();
+      if (k < 1) requestAnimationFrame(step);
+      else { self.cam.yaw = t[0]; self.cam.pitch = t[1]; self.draw(); }
+    }
+    requestAnimationFrame(step);
   };
 
   // ---- render ----

@@ -520,8 +520,24 @@
     $('#mode-orbit').addEventListener('click', function () { setMode('orbit'); });
     $('#mode-room').addEventListener('click', function () { setMode('room'); });
     $('#mode-path').addEventListener('click', function () { setMode('path'); });
-    $('#view-top').addEventListener('click', function () { engine.topView(); });
-    $('#view-3d').addEventListener('click', function () { engine.perspView(); });
+    // view gizmo
+    function setGizmoActive(btn) {
+      document.querySelectorAll('#gizmo [data-view]').forEach(function (b) {
+        b.classList.toggle('view-on', b === btn);
+      });
+    }
+    document.querySelectorAll('#gizmo [data-view]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        engine.snapView(b.getAttribute('data-view'));
+        setGizmoActive(b);
+      });
+    });
+    $('#view-3d').addEventListener('click', function () {
+      engine.perspView();
+      setGizmoActive(null);
+    });
+    // any manual orbit/pan leaves the snapped view
+    $('#viewport').addEventListener('mousedown', function () { setGizmoActive(null); });
     var elev = $('#elev');
     elev.addEventListener('change', function () {
       engine.workingZ = Math.max(0, parseFloat(elev.value || '0'));

@@ -233,6 +233,33 @@ button.ghost { background: transparent; }
 #vp-toolbar .sep { width: 1px; align-self: stretch; background: var(--line); margin: 0 4px; }
 #vp-toolbar label { color: var(--faint); letter-spacing: 0.08em; text-transform: uppercase; font-size: 10px; }
 
+#gizmo {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  z-index: 4;
+}
+#gizmo .giz-row { display: flex; gap: 3px; }
+#gizmo button {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  min-width: 52px;
+  background: rgba(22, 27, 31, 0.85);
+}
+#gizmo button:hover { border-color: var(--accent); color: var(--accent); }
+#gizmo button.view-on {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+#gizmo .giz-3d { width: 100%; color: var(--muted); }
+
 #hud {
   position: absolute;
   left: 10px;
