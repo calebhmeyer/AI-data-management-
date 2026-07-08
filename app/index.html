@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PullSheet — cable counts for live production</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="shell">
+    <header id="topbar">
+      <span class="brand">PULLSHEET <small>v0.1</small></span>
+      <input id="showname" type="text" aria-label="Show name">
+      <div id="totals"></div>
+      <div class="actions">
+        <button id="btn-export">export</button>
+        <button id="btn-import">import</button>
+        <input id="import-file" type="file" accept=".json" hidden>
+        <button id="btn-reset" class="ghost">reset demo</button>
+      </div>
+    </header>
+
+    <aside id="left" class="panel">
+      <div class="panel-head">Inventory pool <span class="spacer"></span> start / used / left</div>
+      <table id="pool-table">
+        <thead>
+          <tr><th>Cable</th><th>Start</th><th>Used</th><th>Left</th></tr>
+        </thead>
+        <tbody id="pool-body"></tbody>
+      </table>
+    </aside>
+
+    <main id="mid">
+      <div id="viewport-wrap">
+        <canvas id="viewport"></canvas>
+        <div id="alert-banner" role="alert"></div>
+        <div id="hud">
+          <div id="hud-mode">NAVIGATE</div>
+          <div><span id="hud-pos">X 0.0'  Y 0.0'  Z 0.0'</span>  <b id="hud-elev">plane 0'</b></div>
+          <div class="hint" id="hud-pending"></div>
+          <div class="hint">shift = Z-axis lock (cursor climbs)</div>
+        </div>
+      </div>
+      <div id="vp-toolbar">
+        <button id="mode-orbit">navigate</button>
+        <button id="mode-room">draw room</button>
+        <button id="mode-path">draw path</button>
+        <span class="sep"></span>
+        <button id="view-top">top</button>
+        <button id="view-3d">3d</button>
+        <span class="sep"></span>
+        <label for="elev">plane</label>
+        <input id="elev" type="number" value="0" step="1" min="0" aria-label="Working elevation in feet">
+        <button data-elev="0">floor</button>
+        <button data-elev="4">deck</button>
+        <button data-elev="22">truss</button>
+        <span class="sep"></span>
+        <label for="snap">snap</label>
+        <select id="snap" aria-label="Grid snap">
+          <option value="1" selected>1'</option>
+          <option value="5">5'</option>
+          <option value="0">off</option>
+        </select>
+        <label for="room-h">room h</label>
+        <input id="room-h" type="number" value="24" min="8" aria-label="Room height in feet">
+        <span class="sep"></span>
+        <label for="path-layer">path →</label>
+        <select id="path-layer" aria-label="Layer for new paths"></select>
+        <select id="path-kind" aria-label="Kind for new paths">
+          <option value="data">data</option>
+          <option value="power">power</option>
+        </select>
+        <label for="slack">slack %</label>
+        <input id="slack" type="number" value="10" min="0" max="50" aria-label="Cable slack percent">
+      </div>
+    </main>
+
+    <aside id="right" class="panel">
+      <div class="panel-head">Sections <span class="spacer"></span> live checks</div>
+      <div id="sections-host"></div>
+      <div id="new-section">
+        <input id="new-section-name" type="text" placeholder="new section name…" aria-label="New section name">
+        <button id="btn-add-section" class="primary">+ section</button>
+      </div>
+    </aside>
+  </div>
+
+  <script src="core.js"></script>
+  <script src="engine3d.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
